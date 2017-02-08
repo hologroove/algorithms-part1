@@ -1,10 +1,6 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-
-    //create n-by-n grid with all sites blocked
-
-
     private int height = 0;
     private int width  = 0;
     private int virtualTop = 0;
@@ -23,45 +19,48 @@ public class Percolation {
 
         //set private height, width
         height = n;
-        width = n; //TODO: not needed
+        width = n;
 
         //create WeightedQuickUnionUF(1dsize + 2)
         //2 extra nodes will be used for virtual top and bottom
         uf = new WeightedQuickUnionUF(n*n+2);
         virtualTop = n*n;
         virtualBottom = n*n+1;
-
-        //connect virtual top to toprow
-        //connect virtual bottom to bottom row
-        for (int i=1; i<=n; i++) {
-            uf.union(virtualTop, toArrayIndex(1, i));
-            uf.union(virtualBottom, toArrayIndex(n, i));
-        }
     }
 
     //open site (row, col) if it is not open already
     public void open(int row, int col) {
         //if it is not already open
-        if (isFull(row, col)) {
+        if (!isOpen(row, col)) {
             //convert row, col to 1d index
             int index = toArrayIndex(row, col);
             //set field[index] to 1
             field[index] = 1;
 
+            //if in top row we need to connect to virtualTop
+            if (row == 1) {
+                uf.union(virtualTop, index);
+            }
+
+            //if in bottom row we need to connect to virtualBottom
+            if (row == height) {
+                uf.union(virtualBottom, index);
+            }
+
             //if not top row, union(index, index-1row)
-            if (row > 1) {
+            if (row > 1 && isOpen(row - 1, col)) {
                 uf.union(index, toArrayIndex(row - 1, col));
             }
             //if not bottom row, union(index, index+1row)
-            if (row < height) {
+            if (row < height && isOpen(row + 1, col)) {
                 uf.union(index, toArrayIndex(row + 1, col));
             }
             //if not 1st column, union(index, index-1)
-            if (col > 1) {
+            if (col > 1 && isOpen(row, col - 1)) {
                 uf.union(index, toArrayIndex(row, col - 1));
             }
             //if not last column, union(index, index+1)
-            if (col < width) {
+            if (col < width && isOpen(row, col + 1)) {
                 uf.union(index, toArrayIndex(row, col + 1));
             }
 
@@ -77,7 +76,8 @@ public class Percolation {
 
     //is site (row, col) full?
     public boolean isFull(int row, int col) {
-        return (field[toArrayIndex(row, col)] == 0) ? true : false;
+        //return (field[toArrayIndex(row, col)] == 0) ? true : false;
+        return uf.connected(virtualTop, toArrayIndex(row, col));
     }
 
     //number of open sites
@@ -98,17 +98,7 @@ public class Percolation {
         return (row-1)*width + col - 1;
     }
 
-
     //test client
     public static void main(String[] args) {
-//        Percolation p = new Percolation(5);
-//        p.open(1,1);
-//        p.open(2,1);
-//        p.open(3,1);
-//        System.out.println("percolates:" + p.percolates());
-//        p.open(4,1);
-//        p.open(5,1);
-//        System.out.println("percolates:" + p.percolates());
-
     }
 }

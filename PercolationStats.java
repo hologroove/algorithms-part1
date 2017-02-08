@@ -24,9 +24,6 @@ public class PercolationStats {
                 int colIndex = StdRandom.uniform(n) + 1;
                 p.open(rowIndex, colIndex);
             }
-            //it took 'counter' sites to percolate in this trial
-            System.out.println("o: " + p.numberOfOpenSites());
-            //System.out.println("t:" + counter/(n*n));
             thresholds[i] = (double) p.numberOfOpenSites() / (n*n);
         }
         meanValue = StdStats.mean(thresholds);
@@ -58,7 +55,7 @@ public class PercolationStats {
     // test client (described below)
     public static void main(String[] args) {
         PercolationStats p = new PercolationStats(Integer.parseInt(args[0]),
-                                              Integer.parseInt(args[1]));
+                                                  Integer.parseInt(args[1]));
         System.out.println("mean   : " + p.mean());
         System.out.println("stddev : " + p.stddev());
         System.out.println("conflo : " + p.confidenceLo());
