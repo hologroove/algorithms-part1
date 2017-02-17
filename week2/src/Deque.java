@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 /**
  * Created by elsziva on 2/17/17.
  */
-public class Deque<Item> implements Iterable {
+public class Deque<Item> implements Iterable<Item> {
 
     private Node first;
     private Node last;
@@ -115,33 +115,41 @@ public class Deque<Item> implements Iterable {
     }
 
     public static void main(String[] args) {
-        Deque deque = new Deque<Integer>();
-        System.out.println("Initial size:" + deque.size());
+        Deque<Integer> deque = new Deque<>();
+        System.out.println("TEST1");
+        System.out.println("size:" + deque.size());
 
-        deque.addLast(1);
-        System.out.println("Added 1:" + deque.size());
-        deque.addLast(2);
-        System.out.println("Added 2:" + deque.size());
-        deque.addLast(3);
-        System.out.println("Added 3:" + deque.size());
-        deque.addLast(4);
-        System.out.println("Added 4:" + deque.size());
-        deque.addLast(5);
-        System.out.println("Added 4:" + deque.size());
+        for (Integer i = 0; i < 10; i++) {
+            deque.addLast(i);
+            //System.out.println("AddLast " + i);
+        }
+        System.out.println("size:" + deque.size());
 
-        System.out.println(deque.removeFirst());
-        System.out.println("size now:" + deque.size());
-        System.out.println(deque.removeFirst());
-        System.out.println("size now:" + deque.size());
-        System.out.println(deque.removeFirst());
-        System.out.println("size now:" + deque.size());
-        System.out.println(deque.removeFirst());
-        System.out.println("size now:" + deque.size());
-        System.out.println(deque.removeFirst());
-        System.out.println("size now:" + deque.size());
+        System.out.println("Iterator:");
+        for (Integer item : deque) {
+            System.out.println(item);
+        }
 
+        for (Integer i = 0; i < 10; i++) {
+            Integer item = deque.removeFirst();
+            System.out.println("RemoveFirst " + item);
+        }
+        System.out.println("size:" + deque.size());
 
+        System.out.println("TEST2");
+        System.out.println("size:" + deque.size());
 
+        for (Integer i = 0; i < 10; i++) {
+            deque.addLast(i);
+            //System.out.println("AddLast " + i);
+        }
+        System.out.println("size:" + deque.size());
+
+        for (Integer i = 0; i < 10; i++) {
+            Integer item = deque.removeLast();
+            System.out.println("RemoveLast " + item);
+        }
+        System.out.println("size:" + deque.size());
     }
 
 }
