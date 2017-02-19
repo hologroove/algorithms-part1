@@ -8,7 +8,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     private Node first;
     private Node last;
-    int size;
+    private int size;
 
     private class Node {
         Item item;
@@ -34,12 +34,12 @@ public class Deque<Item> implements Iterable<Item> {
         if (item == null) {
             throw new java.lang.NullPointerException();
         }
-        Node oldfirst = first;
+        Node oldFirst = first;
         first = new Node();
         first.item = item;
-        first.next = oldfirst;
-        if (oldfirst != null) {
-            oldfirst.prev = first;
+        first.next = oldFirst;
+        if (oldFirst != null) {
+            oldFirst.prev = first;
         }
         if (last == null) {
             last = first;
@@ -51,12 +51,12 @@ public class Deque<Item> implements Iterable<Item> {
         if (item == null) {
             throw new java.lang.NullPointerException();
         }
-        Node oldlast = last;
+        Node oldLast = last;
         last = new Node();
         last.item = item;
-        last.prev = oldlast;
-        if (oldlast !=null) {
-            oldlast.next = last;
+        last.prev = oldLast;
+        if (oldLast !=null) {
+            oldLast.next = last;
         }
         if (first == null) {
             first = last;
